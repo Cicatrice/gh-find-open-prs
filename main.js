@@ -13,12 +13,9 @@ async function main() {
         commit_sha: sha,
     });
 
-    const pr = result.data.length > 0 && result.data.filter(el => el.state === 'open')[0];
+    const prs = result.data.length > 0 && result.data.filter(el => el.state === 'open').map(e => e.number);
 
-    core.setOutput('pr', pr && pr.number || '');
-    core.setOutput('number', pr && pr.number || '');
-    core.setOutput('title', pr && pr.title || '');
-    core.setOutput('body', pr && pr.body || '');
+    core.setOutput('prs', prs || []);
 }
 
 main().catch(err => core.setFailed(err.message));
